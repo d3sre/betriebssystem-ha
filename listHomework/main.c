@@ -43,6 +43,7 @@ void generate(struct node **head, int num) {
     struct node *temp;
  
     for (i = 0; i < num; i++) {
+        //calculates size of new struct node, casts the needed space and assigns the object to temp
         temp = (struct node *)malloc(sizeof(struct node));
         //temp points to structure a, assigns random number smaller then num 
         temp->a = rand() % num;
@@ -86,7 +87,7 @@ void delete(struct node **head) {
         temp = *head;
         // object head, which is part of structure next is assigned to object head
         *head = (*head)->next;
-        //deallocat the memory of temp
+        //deallocate the memory of temp
         free(temp);
     }
 }
