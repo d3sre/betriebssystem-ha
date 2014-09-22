@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>tests/main.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -18,6 +19,18 @@
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f2"
+                     displayName="test_ListCsimple"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/newsimpletest.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3"
+                     displayName="test_listCUnit"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/newcunittest1.c</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1"
                      displayName="test_listHomework"
                      projectFiles="true"
@@ -50,9 +63,38 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lcunit</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="tests/main.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/newcunittest.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="tests/newcunittest1.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="tests/newsimpletest.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -83,9 +125,38 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lcunit</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="tests/main.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/newcunittest.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="tests/newcunittest1.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="tests/newsimpletest.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
   </confs>
