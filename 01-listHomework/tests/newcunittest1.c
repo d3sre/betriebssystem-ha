@@ -28,7 +28,7 @@ void testGenerate() {
     node** p2;
     int p3;
     generate(p2, 8);
-    if (1 /*check result*/) {
+    if (p2 <= 8) {
         CU_ASSERT(0);
     }
 }
