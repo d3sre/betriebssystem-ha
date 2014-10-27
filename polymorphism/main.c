@@ -12,7 +12,7 @@
 /*
  * 
  */
-int main(void) {s
+int main(void) {
     
     struct area ball = { CIRCLE, "ball" };
     struct area warnung = { TRIANGLE, "warnung" };
