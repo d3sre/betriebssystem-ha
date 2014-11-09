@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "structureFunctions.h"
+//#include "structureFunctions.h"
 
 /*
  * 
@@ -19,15 +19,35 @@ int main(void) {
     typedef int (*function)(struct shape *shape);
     typedef void (*process)(struct shape *shape);
     
+    struct shape {
+        process output;
+        function circumference;
+        function area;
+        int a;
+        int b;
+        int c;
+    };
     
+    int charToDecimal(char c) {
+        return (int) (c-'0');
+    }
     
-    struct area ball = { CIRCLE, "ball" };
-    struct area warnung = { TRIANGLE, "warnung" };
+    int randomInteger() {
+        return (rand() % 35);
+    }
     
-    printf("%s says %s\n", ball.name, area_form(&ball));
-    printf("%s says %s\n", warnung.name, area_form($warnung));
-    
-
-    return 0;
+    int main(int argc, char *argv[]) {
+        printf("Define shape where circumference and area shall be calculated with random values: \n");
+        printf("0 for circle, 1 for square, 2 for triangle\n");
+        int input;
+        scanf("%d", &input);
+        
+        switch(input) {
+            case '0' :
+                circle_init_random()
+        }
+        
+    }
+  
 }
 

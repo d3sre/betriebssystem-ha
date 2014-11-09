@@ -1,4 +1,4 @@
-#include area.h
+#include "structureFunctions.h"
 
 static const char *form(void) {
     return "square";

@@ -1,22 +1,21 @@
 #ifndef STRUCTUREFUNCTIONS_H_
 #define STRUCTUREFUNCTIONS_H_
 
-double area(struct shape *shape)
+int area(struct shape *shape)
 {
-    const struct area_vtable_ *vtable;
-    const char *name;
-};
+    return shape->area(shape);
+}
 
-double circumference(struct shape *shape)
+int circumference(struct shape *shape)
 {
-    const char *(*form)(void);
+    return shape->circumference(shape);
 };
 
 void output(struct shape *shape)
 {
-    return area->vtable_->form();
+    return shape->output(shape);
 }
 
-extern const struct area_vtable_ CIRCLE[], QUADRAT[], TRIANGLE[];
+
 
 #endif
