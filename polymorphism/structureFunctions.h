@@ -1,18 +1,18 @@
-#ifndef AREA_H_
-#define AREA_H_
+#ifndef STRUCTUREFUNCTIONS_H_
+#define STRUCTUREFUNCTIONS_H_
 
-struct area
+double area(struct shape *shape)
 {
     const struct area_vtable_ *vtable;
     const char *name;
 };
 
-struct area_vtable_
+double circumference(struct shape *shape)
 {
     const char *(*form)(void);
 };
 
-static inline const char *area_form(struct area *area)
+void output(struct shape *shape)
 {
     return area->vtable_->form();
 }

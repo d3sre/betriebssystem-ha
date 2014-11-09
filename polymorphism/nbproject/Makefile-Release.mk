@@ -38,7 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/area.o \
 	${OBJECTDIR}/circle.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/quadrat.o \
+	${OBJECTDIR}/square.o \
 	${OBJECTDIR}/triangle.o
 
 
@@ -81,10 +81,10 @@ ${OBJECTDIR}/main.o: main.c
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
-${OBJECTDIR}/quadrat.o: quadrat.c 
+${OBJECTDIR}/square.o: square.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/quadrat.o quadrat.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/square.o square.c
 
 ${OBJECTDIR}/triangle.o: triangle.c 
 	${MKDIR} -p ${OBJECTDIR}

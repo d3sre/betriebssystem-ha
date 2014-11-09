@@ -7,12 +7,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "area.h"
+#include "structureFunctions.h"
 
 /*
  * 
  */
 int main(void) {
+    
+    struct shape;
+    
+    typedef int (*function)(struct shape *shape);
+    typedef void (*process)(struct shape *shape);
+    
+    
     
     struct area ball = { CIRCLE, "ball" };
     struct area warnung = { TRIANGLE, "warnung" };
