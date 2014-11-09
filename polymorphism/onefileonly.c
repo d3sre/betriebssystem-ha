@@ -63,7 +63,7 @@ int main(void) {
     }
 
     void circle_output(struct shape *shape) {
-        print("Circle r = " . shape->a);
+        printf("Circle r = %\n" , shape->a);
     }
 
     void circle_init(struct shape *shape, int r) {

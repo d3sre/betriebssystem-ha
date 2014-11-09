@@ -36,6 +36,8 @@ int main(void) {
         return (rand() % 35);
     }
     
+#include "circle.c"
+    
     int main(int argc, char *argv[]) {
         printf("Define shape where circumference and area shall be calculated with random values: \n");
         printf("0 for circle, 1 for square, 2 for triangle\n");
@@ -44,7 +46,11 @@ int main(void) {
         
         switch(input) {
             case '0' :
-                circle_init_random()
+                circle_init_random();
+                break;
+            default : 
+                printf("argument invalid");
+                break;
         }
         
     }
