@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
 //#include "structureFunctions.h"
 
 /*
@@ -89,9 +90,13 @@ int main(void) {
         int input;
         scanf("%d", &input);
         
+        //size_t cnt = (size_t) (argc -1);
+        
+        struct shape *figure1 = (struct shape *) malloc(1 * sizeof(struct shape));
+        
         switch(input) {
             case '0' :
-                circle_init_random(struct shape *);
+                circle_init_random(figure1);
                 break;
             default : 
                 printf("argument invalid");
