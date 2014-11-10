@@ -91,7 +91,7 @@ int main(void) {
         
         switch(input) {
             case '0' :
-                circle_init_random();
+                circle_init_random(struct shape *);
                 break;
             default : 
                 printf("argument invalid");
