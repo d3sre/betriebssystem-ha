@@ -35,12 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/area.o \
-	${OBJECTDIR}/circle.o \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/onefileonly.o \
-	${OBJECTDIR}/square.o \
-	${OBJECTDIR}/triangle.o
+	${OBJECTDIR}/main.o
 
 
 # C Compiler Flags
@@ -61,41 +56,16 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/polymorphism
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/f01_u_ioexercise
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/polymorphism: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/f01_u_ioexercise: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/polymorphism ${OBJECTFILES} ${LDLIBSOPTIONS}
-
-${OBJECTDIR}/area.o: area.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/area.o area.c
-
-${OBJECTDIR}/circle.o: circle.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/circle.o circle.c
+	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/f01_u_ioexercise ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
-
-${OBJECTDIR}/onefileonly.o: onefileonly.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/onefileonly.o onefileonly.c
-
-${OBJECTDIR}/square.o: square.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/square.o square.c
-
-${OBJECTDIR}/triangle.o: triangle.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/triangle.o triangle.c
 
 # Subprojects
 .build-subprojects:
@@ -103,7 +73,7 @@ ${OBJECTDIR}/triangle.o: triangle.c
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/polymorphism
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/f01_u_ioexercise
 
 # Subprojects
 .clean-subprojects:
