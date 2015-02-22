@@ -5,9 +5,6 @@
  * Created on February 21, 2015, 5:38 PM
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-
 /*
  * Vorgehensweise
  * 1. Definition von variablen
@@ -26,69 +23,85 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-int main(int argc, char** argv) {
 
-        int k,m,n;
+int square(int num){
+    return num*num;
+}
+
+int getNumberLength(int num) {
+    char str[6];
+    sprintf(str, "%d", num); // write as ascii (string), not binary
+    int l = strlen(str);
+
+    //n = l + 1; 
+    return l;
+}
+
+
+int main() {
+
+        int n;
         int fdout;
-        //int fdin;
+
         const char *FILENAME = "loesung.txt";
-        //const char *CONTENT = "Dies ist ein Beispieltext 2";
-        //char *buffer;
         
-        //öffnet file FILENAME für schreiben (WRONLY), file wird erstellt falls es noch nicht gibt (CREAT)
-        //fdout enthaelt file descriptor wert fuer neu erstelles file
-        //plus file permission hinzugefuegt
+        //opens file FILENAME for write only (WRONLY), file will be created if not existing yet (CREAT)
+        //fdout has file descriptor value for newly created file
+        //plus file permission added
         fdout = open(FILENAME, O_WRONLY | O_CREAT, 0777);
-        //ausgabe des soeben erhaltenen file descriptor wertes
-        printf("fdout before=%d\n", fdout);
+        //printout file descriptor value
+        //printf("fdout before=%d\n", fdout);
         
-        //static int square(int num);
         int i;
         int result;
-        int tempfdout;
-        
-        int square(int num){
-            return num*num;
+        int totallength = 0;
+        int previouslength = 0;
+        int stepsback;
+        char str[6];
+        int filePosition;
+        int bytesWritten;
+
+        //get total length of file
+        for(i=100;i>0;i--) {
+            
+            result = square(i);        
+            totallength = totallength + getNumberLength(result) + 1;
         }
         
-        char str[6];
-        
+        //start output to file
         for(i=100; i>0; i--) {
 
-//            printf("fdout before=%d\n", fdout);
-            result = square(i);
-            int l=!result;
-            int value = result;
-                while (value) { 
-                    l++; 
-                    value/=10; 
-                }
-//            //printf("i=%d (length=%d)\n", i,l);
-            //get length    
-            n = l + 1; 
+            result = square(i);     
+            n = getNumberLength(result) + 1;
+            stepsback = previouslength + n;
             
-            sprintf(str, "%d", result); // write as ascii (string), not binary
-            write(fdout, (void *) str, strlen(str));
-            write(fdout, (void *) "\n", 1);
+            switch(i)
+            {
+              // case 1: lseek(fdout, -n, SEEK_CUR);
+                case 100:
+                    lseek(fdout, totallength-n, SEEK_SET);
+                    break;
+                default : 
+                    lseek(fdout, -stepsback, SEEK_CUR);
+                    break;
+            }
+              
+            //output written to file + bytesWritten variable for check
+            sprintf(str, "%d\n", result); // write as ascii (string), not binary
+            bytesWritten = write(fdout, (void *) str, strlen(str));
             
+            // caching value for calculation fo correct amount of backsteps
+            previouslength = n;
 
-            //schreibe ab ort fdout, content i, laenge n
-            m = write(fdout, (void *) result, n);
-//            
-//            printf("%d bytes written (length %d) => %d \n", m, n, result);
-//            printf("fdout after=%d\n", fdout);
+            //testoutput for checks
+            filePosition = lseek (fdout, 0, SEEK_CUR);
+ //           printf("i: %d \t\t  square: %d \t\t n: %d \t\t stepsback: %d \t\t fileposition: %d \t\t BytesWritten: %d \t\t Stringlength: %d\n", i, result, n, stepsback, filePosition, bytesWritten, strlen(str));
+            
         }
-        
-
-        
+        printf("total length=%d\n", totallength);
+     
         close(fdout);
-        
-        //buffer = (char *) malloc(m);
-        //fdin = open(FILENAME, O_RDONLY);
-        //printf("fdin=%d\n", fdin);
-        //k = read(fdin, (void *) buffer, m);
-        //close(fdin);
-        //printf("%d byte read:\n%s\n", k, buffer);
+
         exit(0);
 }
 
