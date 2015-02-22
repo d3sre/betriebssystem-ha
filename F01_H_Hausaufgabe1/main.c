@@ -54,25 +54,26 @@ int main(int argc, char** argv) {
         char str[6];
         
         for(i=100; i>0; i--) {
-            sprintf(str, "%d", i);
+
+//            printf("fdout before=%d\n", fdout);
+            result = square(i);
+            int l=!result;
+            int value = result;
+                while (value) { 
+                    l++; 
+                    value/=10; 
+                }
+//            //printf("i=%d (length=%d)\n", i,l);
+            //get length    
+            n = l + 1; 
+            
+            sprintf(str, "%d", result); // write as ascii (string), not binary
             write(fdout, (void *) str, strlen(str));
             write(fdout, (void *) "\n", 1);
-//            printf("fdout before=%d\n", fdout);
-//            result = square(i);
-//            int l=!result;
-//            int value = result;
-//                while (value) { 
-//                    l++; 
-//                    value/=10; 
-//                }
-//            //printf("i=%d (length=%d)\n", i,l);
-//            //get length    
-//            n = l + 1; 
-//            
-//            tempfdout = fdout; // save old fdout
-//            fdout = fdout - n;
-//            //schreibe ab ort fdout, content i, laenge n
-//            m = write(fdout, (void *) result, n);
+            
+
+            //schreibe ab ort fdout, content i, laenge n
+            m = write(fdout, (void *) result, n);
 //            
 //            printf("%d bytes written (length %d) => %d \n", m, n, result);
 //            printf("fdout after=%d\n", fdout);
