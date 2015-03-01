@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux-x86
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux-x86
-CND_ARTIFACT_NAME_Debug=f01_h_hausaufgabe1
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux-x86/f01_h_hausaufgabe1
+CND_ARTIFACT_NAME_Debug=f02_u_lockshared
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux-x86/f02_u_lockshared
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux-x86/package
-CND_PACKAGE_NAME_Debug=f01hhausaufgabe1.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux-x86/package/f01hhausaufgabe1.tar
+CND_PACKAGE_NAME_Debug=f02ulockshared.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux-x86/package/f02ulockshared.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux-x86
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux-x86
-CND_ARTIFACT_NAME_Release=f01_h_hausaufgabe1
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/f01_h_hausaufgabe1
+CND_ARTIFACT_NAME_Release=f02_u_lockshared
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/f02_u_lockshared
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux-x86/package
-CND_PACKAGE_NAME_Release=f01hhausaufgabe1.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/f01hhausaufgabe1.tar
+CND_PACKAGE_NAME_Release=f02ulockshared.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/f02ulockshared.tar
 #
 # include compiler specific variables
 #

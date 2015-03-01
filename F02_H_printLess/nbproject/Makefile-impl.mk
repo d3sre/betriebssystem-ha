@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=F01_H_Hausaufgabe1
+PROJECTNAME=F02_H_printLess
 
 # Active Configuration
 DEFAULTCONF=Debug
