@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     else {
         pLine = malloc(size + 1);
         const char *FILENAME = argv[1]; 
-        fdout = open(FILENAME, O_RDONLY|O_NONBLOCK , 0777);
+        fdout = open(FILENAME, O_RDONLY|O_NONBLOCK);
         
         while (1) {
             charsRead = read(fdout, pLine, size);
