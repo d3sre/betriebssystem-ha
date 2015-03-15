@@ -27,10 +27,12 @@
 
 //#include <itskylib.h>
 
+#define MAX_LINE 1024
+
 int main(int argc, char *argv[]) {
   int fork_result;
   //int pipes[2];
-  char buff[1024];
+  char buff[MAX_LINE];
   int retcode;
   int fdout;
   const char *FILENAME = argv[1]; 
@@ -45,7 +47,8 @@ int main(int argc, char *argv[]) {
   
   printf("generating numbers\n");
   retcode = open("namedPipe", O_WRONLY);
-  write(retcode, buff, strlen(message));
+  fgets(buff, MAX_LINE, *message);
+  write(retcode, message, strlen(message));
   
   
   /* first fork() to create child */
@@ -81,8 +84,10 @@ int main(int argc, char *argv[]) {
     //***
     //fdout = open(FILENAME, O_WRONLY);
     //write(STDOUT_FILENO, message, fdout );
-    int i = (int*)buff;
+    int i = atoi(buff);
     int square = i*i;
+    printf("********\n");
+    printf("Filename: %s\n", FILENAME);
     fopen(FILENAME, "a");
     fprintf(file, "Number: %d, Square: %d", i, square );
             
