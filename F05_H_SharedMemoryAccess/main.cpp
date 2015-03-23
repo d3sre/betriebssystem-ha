@@ -112,7 +112,7 @@ void cleanup() {
         semid_for_cleanup = 0;
         handle_error(retcode, "removing of semaphore failed", NO_EXIT);
     }
-    if (semid_out_for_cleanup > 0) { //TODO remove
+    if (semid_out_for_cleanup > 0) { 
         int retcode = semctl(semid_out_for_cleanup, 0, IPC_RMID, NULL);
         semid_out_for_cleanup = 0;
         handle_error(retcode, "removing of semaphore failed", NO_EXIT);
