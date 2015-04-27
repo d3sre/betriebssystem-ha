@@ -48,6 +48,9 @@ int main(int argc, char *argv[]) {
 	const char *msg1 = "Hello, World!\n(CreateFile/WriteFile/CloseHandle)\n++++++++++++++(1)\n\n";
 	const char *msg2 = "Hello, World!\n(CreateFile/WriteFile/CloseHandle)\n(2)\n\n";
 	const char *fileName = "../temp/test-w-twice.txt";
+	//const int *testcounter = 1;
+	//int n = 5;
+	int param[5];
 
 	HANDLE fh1, fh2;
 
@@ -73,20 +76,24 @@ int main(int argc, char *argv[]) {
 		&processInformation); /* LPPROCESS_INFORMATION lpProcessInformation */
 	printf("in parent process\n");
 
-	threadHandle = CreateThread(NULL, /* LPSECURITY_ATTRIBUTES lpThreadAttributes, */
-		0, /* SIZE_T dwStackSize, */
-		MyThreadFunction, /* LPTHREAD_START_ROUTINE lpStartAddress, */
-		NULL, /* LPVOID lpParameter, */
-		0, /* DWORD dwCreationFlags, */
-		&threadId); /* LPDWORD lpThreadId */
-	printf("thread created threadId=%d\n", threadId);
-	printf("In thread Ausgabe");
-	Sleep(3000);
-	printf("ending thread from parent\n");
-	TerminateThread(threadHandle, 0);
-	printf("terminated thread\n");
-	Sleep(3000);
-
+	int i;
+	for (i = 0; i < 5; i++){
+		param[i] = i;
+		threadHandle = CreateThread(NULL, /* LPSECURITY_ATTRIBUTES lpThreadAttributes, */
+			0, /* SIZE_T dwStackSize, */
+			MyThreadFunction, /* LPTHREAD_START_ROUTINE lpStartAddress, */
+			*param, /* LPVOID lpParameter, */
+			0, /* DWORD dwCreationFlags, */
+			&threadId); /* LPDWORD lpThreadId */
+		printf("thread created threadId=%d\n", threadId);
+		printf("In thread Ausgabe\n");
+		printf("testcounter: %d\n", param[i]);
+		Sleep(3000);
+		printf("ending thread from parent\n");
+		TerminateThread(threadHandle, 0);
+		printf("terminated thread\n");
+		Sleep(3000);
+	}
 	Sleep(5000);
 	printf("terminating child\n");
 	TerminateProcess(processInformation.hProcess, 0);
