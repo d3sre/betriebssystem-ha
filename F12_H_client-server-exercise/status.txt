@@ -1,0 +1,15 @@
+server script from https://github.com/bk1/sysprogramming-examples/blob/master/posix/socket/tcp-square-server.c
+client script from https://github.com/bk1/sysprogramming-examples/blob/master/posix/socket/tcp-square-client.c
+
+threading task from https://github.com/bk1/sysprogramming-examples/blob/master/posix/threads/thread-sort-once.c
+
+current step:
+
+- arguments done
+- client server communication working and code is compiling
+
+
+next steps:
+- create a new thread for each client connection (line 119 in thread-sort-once.c code)
+- do task
+- print out on/with client script

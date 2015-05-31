@@ -12,7 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9990eb-dc30-4a60-95a1-36ba51d63cbb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tcp-square-client.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/socket-thread-sort-once.c" afterPath="$PROJECT_DIR$/socket-thread-sort-once.c" />
     </list>
     <ignored path="F12_H_client-server-exercise.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,8 +46,8 @@
       <file leaf-file-name="socket-thread-sort-once.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/socket-thread-sort-once.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.8195267">
-              <caret line="123" column="1" selection-start-line="123" selection-start-column="1" selection-end-line="123" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.45266274">
+              <caret line="90" column="22" selection-start-line="90" selection-start-column="22" selection-end-line="90" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -225,8 +225,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/socket-thread-sort-once.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.8195267">
-          <caret line="123" column="1" selection-start-line="123" selection-start-column="1" selection-end-line="123" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.45266274">
+          <caret line="90" column="22" selection-start-line="90" selection-start-column="22" selection-end-line="90" selection-end-column="22" />
           <folding />
         </state>
       </provider>
