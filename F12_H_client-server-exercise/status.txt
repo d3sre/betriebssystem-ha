@@ -13,3 +13,6 @@ next steps:
 - create a new thread for each client connection (line 119 in thread-sort-once.c code)
 - do task
 - print out on/with client script
+
+compile with gcc -std=c11 -I include/ socket-thread-sort-once.c lib/libitsky.a -lpthread -o socket-thread-sort-once
+
