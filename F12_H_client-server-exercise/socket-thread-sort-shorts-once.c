@@ -41,94 +41,119 @@ pthread_key_t *create_key();
 
 pthread_key_t *key;
 
+//count shorts
+int thread_count;
+int data_size;
+short *data;
+
 enum mt_sort_type { MT_HEAP_SORT, MT_TERNARY_HEAP_SORT, MT_QUICK_SORT, MT_FLASH_SORT, MT_INSERTION_SORT, MT_MERGE_SORT };
 
 struct thread_arg {
-    const char *file_name;
-    enum mt_sort_type selected_sort_type;
-    struct string_array **content;
-    int client_socket;
+//    const char *file_name;
+//    enum mt_sort_type selected_sort_type;
+//    struct string_array **content;
+//    int client_socket;
+//    int thread_idx;
+
     int thread_idx;
+    pthread_barrier_t *barrier;
+    short *data;
+    size_t size;
+    struct thread_arg *arr;
 };
 
 void *thread_run(void *ptr);
+void prepare(const char * file_name);
 
 void transmit_sorted_words(struct thread_arg *arg);
 
 void thread_once();
 
+
+void print_data() {
+    sleep(1);
+    printf("------------------------------------------------------------\n");
+    int w = 0;
+    for (int i = 0; i < data_size; i++) {
+        int x = data[i];
+        printf("%6d", x);
+        w+=6;
+        if (w > 168) {
+            printf("\n");
+            w = 0;
+        }
+    }
+    printf("\n");
+    printf("------------------------------------------------------------\n");
+}
+
 void usage(char *argv0, char *msg) {
     printf("%s\n\n", msg);
     printf("Usage:\n\n");
 
-    printf("starts a server listening on the given port\n");
-    printf("splits the given input file into words, disregarding all characters other than [A-Za-z0-9\240-\377]\n");
-    printf("(non-used characters mark word boundaries)\n");
-    printf("sorts the words and renders the sorted words for a 200 character wide output\n");
-    printf("words longer than 200 characters exceed the width in a line by themselves\n");
-    printf("this is done for each client request and served to the client via TCP\n");
-    printf("reading and sorting is only done once by the thread that comes first.\n");
-    printf("output is then rendered and transmitted by each thread separately\n\n");
-
-    printf("%s port -f file \n\tsorts contents of file using flashsort.\n\n", argv0);
-    printf("%s port -h file \n\tsorts contents of file using heapsort.\n\n", argv0);
-    printf("%s port -t file \n\tsorts contents of file using ternary heapsort.\n\n", argv0);
-    printf("%s port -q file \n\tsorts contents of file using quicksort.\n\n", argv0);
-    printf("%s port -i file \n\tsorts contents of file using insertionsort.\n\n", argv0);
-    printf("%s port -m file \n\tsorts contents of file using mergesort.\n\n", argv0);
+    printf("splits the given input file into bytes and sorts them using n threads\n");
+    printf("\n");
+    printf("%s n file\n", argv0);
     exit(1);
 }
 
 int main(int argc, char *argv[]) {
     int retcode;
+    pthread_t *thread;
 
     if (is_help_requested(argc, argv)) {
         usage(argv[0], "");
     }
 
-    key = create_key();
+    //key = create_key();
 
     char *argv0 = argv[0];
-    if (argc != 4) {
+    if (argc != 3) {
         printf("found %d arguments\n", argc - 1);
         usage(argv0, "wrong number of arguments");
     }
 
-    int opt_idx = 2;
-    enum mt_sort_type selected_sort_type;
+    thread_count = atoi(argv[1]);
+    const char *file_name = argv[2];
 
-    char *argv_opt = argv[opt_idx];
-    if (strlen(argv_opt) != 2 || argv_opt[0] != '-') {
-        usage(argv0, "wrong option");
-    }
-    char opt_char = argv_opt[1];
-    switch (opt_char) {
-        case 'h' :
-            selected_sort_type = MT_HEAP_SORT;
-            break;
-        case 't' :
-            selected_sort_type = MT_TERNARY_HEAP_SORT;
-            break;
-        case 'f' :
-            selected_sort_type = MT_FLASH_SORT;
-            break;
-        case 'q' :
-            selected_sort_type = MT_QUICK_SORT;
-            break;
-        case 'i' :
-            selected_sort_type = MT_INSERTION_SORT;
-            break;
-        case 'm' :
-            selected_sort_type = MT_MERGE_SORT;
-            break;
-        default:
-            usage(argv0, "wrong option");
-            break;
-    }
+    prepare(file_name);
+//    int opt_idx = 2;
+//    enum mt_sort_type selected_sort_type;
 
-    char *file_name = argv[3];
-    int server_port = atoi(argv[1]);
+//    char *argv_opt = argv[opt_idx];
+//    if (strlen(argv_opt) != 2 || argv_opt[0] != '-') {
+//        usage(argv0, "wrong option");
+//    }
+//    char opt_char = argv_opt[1];
+//    switch (opt_char) {
+//        case 'h' :
+//            selected_sort_type = MT_HEAP_SORT;
+//            break;
+//        case 't' :
+//            selected_sort_type = MT_TERNARY_HEAP_SORT;
+//            break;
+//        case 'f' :
+//            selected_sort_type = MT_FLASH_SORT;
+//            break;
+//        case 'q' :
+//            selected_sort_type = MT_QUICK_SORT;
+//            break;
+//        case 'i' :
+//            selected_sort_type = MT_INSERTION_SORT;
+//            break;
+//        case 'm' :
+//            selected_sort_type = MT_MERGE_SORT;
+//            break;
+//        default:
+//            usage(argv0, "wrong option");
+//            break;
+//    }
+//
+//    char *file_name = argv[3];
+//    int server_port = atoi(argv[1]);
 
+    int server_port = 32111;
+    prepare(file_name);
     /* Create socket for incoming connections */
     int server_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     handle_error(server_socket, "socket() failed", PROCESS_EXIT);
@@ -171,16 +196,147 @@ int main(int argc, char *argv[]) {
 
         pthread_t thread;
         struct thread_arg *thread_data = (struct thread_arg *) malloc(sizeof(struct thread_arg));
-        thread_data->file_name = file_name;
-        thread_data->selected_sort_type = selected_sort_type;
-        thread_data->content = content;
-        thread_data->client_socket = client_socket;
-        thread_data->thread_idx = idx;
+
+        pthread_barrier_t barrier;
+        retcode = pthread_barrier_init(&barrier, NULL, thread_count + 1);
+
+
         retcode = pthread_create(&thread, &thread_attr, thread_run, thread_data);
         handle_thread_error(retcode, "pthread_create", PROCESS_EXIT);
     }
     /* never going to happen: */
     exit(0);
+}
+
+void *thread_run(void *ptr) {
+    int retcode;
+    struct thread_arg *arg = (struct thread_arg *) ptr;
+
+    qsort(arg->data, arg->size, 1, compare);
+    int idx = arg->thread_idx;
+    struct thread_arg *arr = arg->arr;
+    for (int step = 1; step < thread_count; step *= 2) {
+        retcode = pthread_barrier_wait(arg->barrier);
+        if (retcode != PTHREAD_BARRIER_SERIAL_THREAD && retcode != 0) {
+            printf("waited for barrier in child %d (step=%d retcode=%d)\n", idx, step, retcode);
+            handle_thread_error(retcode, "pthread_barrier_wait", THREAD_EXIT);
+        }
+
+        if (idx % (2*step) == 0) {
+            int other_idx = idx + step;
+            if (other_idx < thread_count) {
+                int m = arr[idx].size;
+                int n = arr[other_idx].size;
+                int i = 0;
+                int j = 0;
+                int k = 0;
+                int total_len = m + n;
+                char *copy = malloc(total_len);
+                char *left = arr[idx].data;
+                char *right = arr[other_idx].data;
+                while (i + j < total_len) {
+                    if (i >= m) {
+                        memcpy(copy + k, right + j, n - j);
+                        j = n;
+                    } else if (j >= n) {
+                        memcpy(copy + k, left + i, m - i);
+                        i = m;
+                    } else {
+                        if (left[i] <= right[j]) {
+                            copy[k++] = left[i++];
+                        } else {
+                            copy[k++] = right[j++];
+                        }
+                    }
+                }
+                arr[idx].size = total_len;
+                memcpy(left, copy, total_len);
+                arr[other_idx].size = 0;
+                arr[other_idx].data = NULL;
+                free(copy);
+            }
+        }
+    }
+
+
+    retcode = pthread_setspecific(*key, arg);
+    handle_thread_error(retcode, "pthread_setspecific", THREAD_EXIT);
+    transmit_sorted_words(arg);
+    free(ptr);
+    return (void *) NULL;
+}
+
+pthread_key_t *create_key() {
+    pthread_key_t *key = (pthread_key_t *) malloc(sizeof(pthread_key_t));
+    pthread_key_create(key, NULL);
+    return key;
+}
+
+void threadManager() {
+    size_t size_per_thread = data_size / thread_count;
+    size_t rest = data_size;
+    short *partial_data = data;
+
+    for (int i = 0; i < thread_count; i++) {
+
+
+        thread_data[i].thread_idx = i;
+        thread_data[i].barrier = &barrier;
+        thread_data[i].data = partial_data;
+        thread_data[i].size = i == thread_count - 1 ? rest : size_per_thread;
+        thread_data[i].arr = thread_data;
+
+        rest -= size_per_thread;
+        partial_data += size_per_thread;
+        retcode = pthread_create(&(thread[i]), NULL, thread_run, &(thread_data[i]));
+        handle_thread_error(retcode, "pthread_create", PROCESS_EXIT);
+    }
+    for (int step = 1; step < thread_count; step *= 2) {
+        // printf("waiting for barrier in main\n");
+        retcode =   pthread_barrier_wait(&barrier);
+        // printf("waited for barrier in main (step=%d)\n", step);
+        if (retcode != PTHREAD_BARRIER_SERIAL_THREAD && retcode != 0) {
+            printf("waited for barrier in main (step=%d)\n", step);
+            handle_thread_error(retcode, "pthread_barrier_wait", THREAD_EXIT);
+        }
+        // printf("sorting of partitions finished for step=%d\n", step);
+    }
+    for (int i = 0; i < thread_count; i++) {
+        /* printf("main: joining thread %d\n", i); */
+        retcode = pthread_join(thread[i], NULL);
+        handle_thread_error(retcode, "pthread_join", PROCESS_EXIT);
+        /* printf("main: joined thread %d\n", i); */
+    }
+    print_data();
+    pthread_barrier_destroy(&barrier);
+}
+
+void prepare(const char * file_name) {
+    // int retcode;
+    printf("opening %s\n", file_name);
+    int fd = open(file_name, O_RDONLY);
+    handle_error(fd, "open", PROCESS_EXIT);
+    struct stat stat;
+    int retcode = fstat(fd, &stat);
+    handle_error(retcode, "open", PROCESS_EXIT);
+    off_t size = stat.st_size;
+    if (size <= 0) {
+        handle_error(-1, "size not positive", PROCESS_EXIT);
+        exit(1);
+    }
+    char *buffer = (char *) malloc(size);
+    retcode = read(fd, buffer, size);
+    handle_error(retcode, "read", PROCESS_EXIT);
+    retcode = close(fd);
+    handle_error(retcode, "close", PROCESS_EXIT);
+    data = buffer;
+    data_size = size;
+}
+
+int compare(const void *x_ptr, const void *y_ptr) {
+    char x = *((char *) x_ptr);
+    char y = *((char *) y_ptr);
+    return x-y;
 }
 
 void thread_once() {
@@ -299,18 +455,4 @@ void transmit_sorted_words(struct thread_arg *arg) {
     handle_error(retcode, "close()", THREAD_EXIT);
 }
 
-void *thread_run(void *ptr) {
-    int retcode;
-    struct thread_arg *arg = (struct thread_arg *) ptr;
-    retcode = pthread_setspecific(*key, arg);
-    handle_thread_error(retcode, "pthread_setspecific", THREAD_EXIT);
-    transmit_sorted_words(arg);
-    free(ptr);
-    return (void *) NULL;
-}
 
-pthread_key_t *create_key() {
-    pthread_key_t *key = (pthread_key_t *) malloc(sizeof(pthread_key_t));
-    pthread_key_create(key, NULL);
-    return key;
-}
